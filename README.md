@@ -23,7 +23,7 @@ With DemoForge, you can:
 
 | # | Epic | Status | Issue | Description |
 |:-:|------|--------|-------|-------------|
-| 1 | **[Tenant Connection & Setup](docs/epics/epic-1-tenant-connection.md)** | 🟢 In Refinement | [#1](../../issues/1) | Secure onboarding & tenant authentication via OAuth 2.0 / Entra ID |
+| 1 | **[Tenant Connection & Setup](docs/epics/epic-1-tenant-connection.md)** | 🟢 In Refinement | [#1](https://github.com/marcusp3t3rs/demoforge/issues/1) | Secure onboarding & tenant authentication via OAuth 2.0 / Entra ID |
 | 2 | **Function & Industry Layering** | ⚪ Planned | — | Modularly define business functions and industry logic |
 | 3 | **Demo User Provisioning** | ⚪ Planned | — | Automatically create realistic demo personas and assign roles |
 | 4 | **Content Generation** | ⚪ Planned | — | Generate AI-driven demo data, documents, and interactions |
@@ -112,7 +112,7 @@ Each Epic defines a clear functional area and is designed to be incrementally bu
 
 ## 🧩 Epic 1 — Tenant Connection & Setup
 
-> **Status:** 🟢 In Refinement | **Issue:** [#1](../../issues/1) | **Details:** [Epic 1 Documentation](docs/epics/epic-1-tenant-connection.md)
+> **Status:** 🟢 In Refinement | **Issue:** [#1](https://github.com/marcusp3t3rs/demoforge/issues/1) | **Details:** [Epic 1 Documentation](docs/epics/epic-1-tenant-connection.md)
 
 **Goal:**  
 Enable secure connection of Microsoft 365 tenants to the DemoForge Dashboard with OAuth 2.0 / Entra ID authentication flow.
@@ -124,7 +124,7 @@ Enable secure connection of Microsoft 365 tenants to the DemoForge Dashboard wit
 - Connection health UI with revoke/reconnect functionality
 - Basic audit trail for authentication events
 
-**Active User Stories:** [Issues #2-#9](../../issues)
+**Active User Stories:** [Issues #2-#9](https://github.com/marcusp3t3rs/demoforge/issues)
 - US-1: Tenant Admin Authentication
 - US-2: Admin Consent  
 - US-3: Token Exchange & Storage

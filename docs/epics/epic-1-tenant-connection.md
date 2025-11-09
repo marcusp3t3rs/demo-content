@@ -12,19 +12,19 @@
 | **Objective** | Secure onboarding and tenant connection via OAuth 2.0 / Entra ID / Graph API |
 | **Owner** | @marcuspeters |
 | **Status** | 🟢 In Refinement |
-| **Issue** | [#1](../../issues/1) |
+| **Issue** | [#1](https://github.com/marcusp3t3rs/demoforge/issues/1) |
 
 ---
 
 ## User Stories
-- [ ] [#2](../../issues/2) US-1 Tenant Admin Authentication  
-- [ ] [#3](../../issues/3) US-2 Admin Consent  
-- [ ] [#4](../../issues/4) US-3 Token Exchange & Storage  
-- [ ] [#5](../../issues/5) US-4 Role & Tenant Verification  
-- [ ] [#6](../../issues/6) US-5 Connection Status Dashboard  
-- [ ] [#7](../../issues/7) US-6 Auto Refresh & Failure Handling  
-- [ ] [#8](../../issues/8) US-7 Revoke / Reconnect  
-- [ ] [#9](../../issues/9) US-8 Audit Log  
+- [ ] [#2](https://github.com/marcusp3t3rs/demoforge/issues/2) US-1 Tenant Admin Authentication  
+- [ ] [#3](https://github.com/marcusp3t3rs/demoforge/issues/3) US-2 Admin Consent  
+- [ ] [#4](https://github.com/marcusp3t3rs/demoforge/issues/4) US-3 Token Exchange & Storage  
+- [ ] [#5](https://github.com/marcusp3t3rs/demoforge/issues/5) US-4 Role & Tenant Verification  
+- [ ] [#6](https://github.com/marcusp3t3rs/demoforge/issues/6) US-5 Connection Status Dashboard  
+- [ ] [#7](https://github.com/marcusp3t3rs/demoforge/issues/7) US-6 Auto Refresh & Failure Handling  
+- [ ] [#8](https://github.com/marcusp3t3rs/demoforge/issues/8) US-7 Revoke / Reconnect  
+- [ ] [#9](https://github.com/marcusp3t3rs/demoforge/issues/9) US-8 Audit Log  
 
 ---
 
