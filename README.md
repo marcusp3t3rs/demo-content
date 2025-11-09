@@ -106,6 +106,22 @@ Developers contributing to this project should ensure the following:
    - Install recommended extensions
    - Use integrated terminal for all commands
 
+## 🔄 CI/CD Pipeline
+
+### Automated Quality Gates
+- ✅ **ESLint**: Code quality and style checking
+- ✅ **TypeScript**: Type safety validation  
+- ✅ **Build**: Production build verification
+- ✅ **Security**: Dependency vulnerability scanning
+- ✅ **Docker**: Container image building
+
+### Deployment Strategy
+- 🔄 **Pull Requests**: Auto-deploy to staging for preview
+- 🚀 **Main Branch**: Auto-deploy to production
+- 📋 **Quality Gates**: All checks must pass before deployment
+
+**CI/CD Documentation:** [.github/CICD.md](.github/CICD.md)
+
 ## 🧩 Next Steps
 
 1. ✅ ~~Define folder structure for epics~~ → **Complete** (`docs/epics/` created)

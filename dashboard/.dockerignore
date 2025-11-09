@@ -1,0 +1,25 @@
+# Docker
+.dockerignore
+Dockerfile
+docker-compose*.yml
+
+# Development
+.env*.local
+.next/
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+docs/
