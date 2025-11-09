@@ -22,8 +22,14 @@ A Next.js dashboard application for managing Microsoft 365 tenant connections an
    cp .env.example .env.local
    
    # Edit .env.local with your actual values
-   # For now, you can leave most values as-is for basic development
+   # For basic development, you can leave most values as defaults
+   # For Epic 1 (Microsoft integration), you'll need to set up Azure App Registration
    ```
+
+   **Environment Files:**
+   - `.env.example` - Template with all required variables
+   - `.env.local` - Your local development settings (created by you, git-ignored)
+   - `.env.production` - Production environment template (for deployment)
 
 3. **Start development server:**
    ```bash
