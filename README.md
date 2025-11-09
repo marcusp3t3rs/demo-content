@@ -30,9 +30,9 @@ With DemoForge, you can:
 | 5 | **Dashboard & Monitoring** | Visualize system health, tenant status, and usage analytics. |
 | 6 | **Installation & Packaging** | Deploy anywhere — locally, via Codespaces, or Azure. |
 
-## 🧭 Project Overview
+## 🧭 Service Overview
 
-The **Demo Content Project** aims to create a modular, tenant-ready service for generating and managing AI-powered demo content across industries and business functions.  
+The **DemoForge Project** aims to create a modular, tenant-ready service for generating and managing AI-powered demo content across industries and business functions.  
 It provides a foundation for building repeatable, installable demo environments that connect to Microsoft tenants, layer functional and industry-specific logic, and provision demo users and sample content automatically.
 
 Ultimately, the goal is to deliver a **self-contained, reproducible environment** for demonstrating AI and Copilot scenarios — with clear separation between:
@@ -98,7 +98,7 @@ Developers contributing to this project should ensure the following:
 _This repository is designed to stay minimal until core modules (Epics 1–6) are defined and implemented._
 
 
-# Demo Content Project — MVP Epics
+# MVP Epics
 
 ## 🎯 Overview
 
