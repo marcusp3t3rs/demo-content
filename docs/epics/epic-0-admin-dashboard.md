@@ -14,6 +14,7 @@
 | **Depends on** | — (primes Epic 1) |
 
 ## User Stories
+- [ ] [#19](https://github.com/marcusp3t3rs/demoforge/issues/19) E0-US0 Initial Setup (Node.js app + basic dashboard)
 - [ ] [#11](https://github.com/marcusp3t3rs/demoforge/issues/11) E0-US1 App Shell & Navigation
 - [ ] [#12](https://github.com/marcusp3t3rs/demoforge/issues/12) E0-US2 Admin Sign-In  
 - [ ] [#13](https://github.com/marcusp3t3rs/demoforge/issues/13) E0-US3 Connect Tenant CTA
@@ -36,6 +37,7 @@
 ## Iteration Plan
 | Sprint | Deliverables |
 |---|---|
+| 0 | **Initial Setup:** Basic Node.js app + dashboard foundation |
 | 1 | App shell + OIDC + Connect CTA + Empty state |
 | 2 | Status card + Audit preview + Alerts |
 | 3 | Polish (RBAC guard, loading/skeletons) |
