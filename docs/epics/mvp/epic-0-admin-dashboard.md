@@ -9,7 +9,7 @@
 |---|---|
 | **Objective** | App shell (layout, routing), admin auth, dashboard widgets, Connect CTA |
 | **Owner** | @marcuspeters |
-| **Status** | ✅ Complete |
+| **Status** | 🟢 In Progress |
 | **Issue** | [#10](https://github.com/marcusp3t3rs/demoforge/issues/10) |
 | **Depends on** | — (primes Epic 1) |
 
@@ -44,9 +44,9 @@
 
 ---
 
-## ✅ Completion Summary
+## 🚧 Progress Summary
 
-**Epic 0 Foundation Delivered (November 2025):**
+**E0-US0 Foundation Delivered (November 2025):**
 
 ### 🏗️ **Technical Foundation**
 - **Next.js 16 Dashboard:** Complete TypeScript + Tailwind CSS application
@@ -72,6 +72,12 @@
 - **Microsoft Integration Prep:** Environment variables configured for Entra ID
 - **Modular Architecture:** Clean separation for adding tenant connection features
 
-**Next Phase:** Epic 1 will build on this foundation to add Microsoft Entra ID integration, turning the "Connect Tenant" button into a fully functional OAuth flow.
+**Next Phase:** Complete remaining Epic 0 user stories (E0-US1 through E0-US8), then Epic 1 will add Microsoft Entra ID integration, turning the "Connect Tenant" button into a fully functional OAuth flow.
+
+**Remaining Epic 0 Work:**
+- E0-US1: App Shell & Navigation (routing, layout structure)
+- E0-US2: Admin Sign-In (authentication flow)  
+- E0-US3: Connect Tenant CTA (enhanced UI)
+- E0-US4-US8: Status cards, audit preview, alerts, role badge, empty state UX
 
 **Related:** [docs/mvp-backlog.md](../../mvp-backlog.md)
