@@ -1,0 +1,143 @@
+name: Sync Issue Status to Project Board
+
+on:
+  issues:
+    types: [closed, reopened]
+  
+env:
+  MVP_PROJECT_ID: "PVT_kwHOBcvPe84BHzw0"
+  V1_PROJECT_ID: "PVT_kwHOBcvPe84BHzxg"
+  STATUS_FIELD_ID: "PVTSSF_lAHOBcvPe84BHzw0zg4dEuo"
+  DONE_OPTION_ID: "98236657"
+  TODO_OPTION_ID: "f75ad846"
+
+jobs:
+  sync-mvp-project:
+    name: Sync MVP Project Board Status
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'mvp')
+    
+    steps:
+      - name: Sync closed issue to Done status
+        if: github.event.action == 'closed'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          # Get the project item ID for this issue
+          ITEM_ID=$(gh project item-list 1 --owner ${{ github.repository_owner }} --format json | \
+            jq -r ".items[] | select(.content.number == ${{ github.event.issue.number }}) | .id")
+          
+          if [ "$ITEM_ID" != "null" ] && [ "$ITEM_ID" != "" ]; then
+            echo "Moving issue #${{ github.event.issue.number }} to Done status"
+            gh project item-edit --id "$ITEM_ID" \
+              --project-id "$MVP_PROJECT_ID" \
+              --field-id "$STATUS_FIELD_ID" \
+              --single-select-option-id "$DONE_OPTION_ID"
+          else
+            echo "Issue #${{ github.event.issue.number }} not found in MVP project"
+          fi
+
+      - name: Sync reopened issue to Todo status  
+        if: github.event.action == 'reopened'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          # Get the project item ID for this issue
+          ITEM_ID=$(gh project item-list 1 --owner ${{ github.repository_owner }} --format json | \
+            jq -r ".items[] | select(.content.number == ${{ github.event.issue.number }}) | .id")
+          
+          if [ "$ITEM_ID" != "null" ] && [ "$ITEM_ID" != "" ]; then
+            echo "Moving issue #${{ github.event.issue.number }} to Todo status"
+            gh project item-edit --id "$ITEM_ID" \
+              --project-id "$MVP_PROJECT_ID" \
+              --field-id "$STATUS_FIELD_ID" \
+              --single-select-option-id "$TODO_OPTION_ID"
+          else
+            echo "Issue #${{ github.event.issue.number }} not found in MVP project"
+          fi
+
+  sync-v1-project:
+    name: Sync V1 Project Board Status  
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'v1')
+    
+    steps:
+      - name: Sync closed V1 issue to Done status
+        if: github.event.action == 'closed'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          # Get the project item ID for this issue in V1 project
+          ITEM_ID=$(gh project item-list 2 --owner ${{ github.repository_owner }} --format json | \
+            jq -r ".items[] | select(.content.number == ${{ github.event.issue.number }}) | .id")
+          
+          if [ "$ITEM_ID" != "null" ] && [ "$ITEM_ID" != "" ]; then
+            echo "Moving V1 issue #${{ github.event.issue.number }} to Done status"
+            # Note: V1 project may have different field IDs - this would need to be updated
+            gh project item-edit --id "$ITEM_ID" \
+              --project-id "$V1_PROJECT_ID" \
+              --field-id "$STATUS_FIELD_ID" \
+              --single-select-option-id "$DONE_OPTION_ID"
+          else
+            echo "Issue #${{ github.event.issue.number }} not found in V1 project"
+          fi
+
+      - name: Sync reopened V1 issue to Todo status
+        if: github.event.action == 'reopened'  
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          # Get the project item ID for this issue in V1 project
+          ITEM_ID=$(gh project item-list 2 --owner ${{ github.repository_owner }} --format json | \
+            jq -r ".items[] | select(.content.number == ${{ github.event.issue.number }}) | .id")
+          
+          if [ "$ITEM_ID" != "null" ] && [ "$ITEM_ID" != "" ]; then
+            echo "Moving V1 issue #${{ github.event.issue.number }} to Todo status"
+            gh project item-edit --id "$ITEM_ID" \
+              --project-id "$V1_PROJECT_ID" \
+              --field-id "$STATUS_FIELD_ID" \
+              --single-select-option-id "$TODO_OPTION_ID"
+          else
+            echo "Issue #${{ github.event.issue.number }} not found in V1 project"
+          fi
+
+  weekly-sync:
+    name: Weekly Full Sync (Backup)
+    runs-on: ubuntu-latest
+    # Run every Sunday at 9 AM UTC
+    if: github.event_name == 'schedule'
+    
+    steps:
+      - name: Sync all closed issues to Done
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          echo "Running weekly sync to catch any missed updates..."
+          
+          # Get all closed issues with MVP label
+          gh issue list --state closed --label mvp --json number,title | \
+            jq -r '.[] | .number' | \
+            while read issue_num; do
+              ITEM_ID=$(gh project item-list 1 --owner ${{ github.repository_owner }} --format json | \
+                jq -r ".items[] | select(.content.number == $issue_num) | .id")
+              
+              if [ "$ITEM_ID" != "null" ] && [ "$ITEM_ID" != "" ]; then
+                CURRENT_STATUS=$(gh project item-list 1 --owner ${{ github.repository_owner }} --format json | \
+                  jq -r ".items[] | select(.content.number == $issue_num) | .status")
+                
+                if [ "$CURRENT_STATUS" != "Done" ]; then
+                  echo "Syncing closed issue #$issue_num to Done status"
+                  gh project item-edit --id "$ITEM_ID" \
+                    --project-id "$MVP_PROJECT_ID" \
+                    --field-id "$STATUS_FIELD_ID" \
+                    --single-select-option-id "$DONE_OPTION_ID"
+                fi
+              fi
+            done
+
+# Add scheduled trigger for weekly sync
+on:
+  issues:
+    types: [closed, reopened]
+  schedule:
+    - cron: '0 9 * * 0'  # Weekly on Sunday at 9 AM UTC
