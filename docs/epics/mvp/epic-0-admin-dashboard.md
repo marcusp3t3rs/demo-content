@@ -42,4 +42,4 @@
 | 2 | Status card + Audit preview + Alerts |
 | 3 | Polish (RBAC guard, loading/skeletons) |
 
-**Related:** [docs/backlog.md](../backlog.md)
+**Related:** [docs/mvp-backlog.md](../../mvp-backlog.md)
