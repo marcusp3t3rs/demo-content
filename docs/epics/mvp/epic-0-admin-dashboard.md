@@ -15,7 +15,7 @@
 
 ## User Stories
 - [x] [#19](https://github.com/marcusp3t3rs/demoforge/issues/19) E0-US0 Initial Setup (Node.js app + basic dashboard) **✅ Complete**
-- [ ] [#11](https://github.com/marcusp3t3rs/demoforge/issues/11) E0-US1 App Shell & Navigation *(Next Epic 1 phase)*
+- [x] [#11](https://github.com/marcusp3t3rs/demoforge/issues/11) E0-US1 App Shell & Navigation **✅ Complete**
 - [ ] [#12](https://github.com/marcusp3t3rs/demoforge/issues/12) E0-US2 Admin Sign-In *(Epic 1 integration)*
 - [ ] [#13](https://github.com/marcusp3t3rs/demoforge/issues/13) E0-US3 Connect Tenant CTA *(Epic 1 integration)*
 - [ ] [#14](https://github.com/marcusp3t3rs/demoforge/issues/14) E0-US4 Connection Status Card *(Epic 1 integration)*
@@ -74,10 +74,29 @@
 
 **Next Phase:** Complete remaining Epic 0 user stories (E0-US1 through E0-US8), then Epic 1 will add Microsoft Entra ID integration, turning the "Connect Tenant" button into a fully functional OAuth flow.
 
+**E0-US1 App Shell & Navigation Delivered (November 2025):**
+
+### 🏗️ **App Shell Implementation**
+- **Responsive Sidebar Navigation:** Complete navigation with Heroicons, active states, proper routing
+- **Header Component:** Mobile menu support, user display, responsive design
+- **Layout System:** Root layout with AuthProvider integration, proper responsive breakpoints
+- **Error Handling:** React Error Boundary, custom 404 page, loading states and skeletons
+
+### 🧭 **Navigation & Routing**  
+- **File-based Routing:** Next.js App Router with 4 main pages (Dashboard, Tenants, Audit, Settings)
+- **Active State Management:** usePathname integration for proper navigation highlighting
+- **Empty State Handling:** Consistent empty states across all pages with appropriate messaging
+- **Settings Configuration:** DemoForge-specific settings (audit retention, API limits, feature flags)
+
+### 🔐 **Authentication Foundation**
+- **Auth Context:** React Context API with mock admin user for development
+- **User Display:** Header integration showing user info and role
+- **Epic 1 Ready:** Authentication scaffolding prepared for Microsoft Entra ID integration
+
 **Remaining Epic 0 Work:**
-- E0-US1: App Shell & Navigation (routing, layout structure)
-- E0-US2: Admin Sign-In (authentication flow)  
-- E0-US3: Connect Tenant CTA (enhanced UI)
-- E0-US4-US8: Status cards, audit preview, alerts, role badge, empty state UX
+- E0-US2: Admin Sign-In (authentication flow - Epic 1 integration)  
+- E0-US3: Connect Tenant CTA (enhanced UI - Epic 1 integration)
+- E0-US4: Connection Status Card (Epic 1 integration)
+- E0-US5-US8: Audit preview, alerts, role badge, enhanced empty state UX
 
 **Related:** [docs/mvp-backlog.md](../../mvp-backlog.md)
