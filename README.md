@@ -179,7 +179,30 @@ Developers contributing to this project should ensure the following:
 
 **CI/CD Documentation:** [.github/CICD.md](.github/CICD.md)
 
-## 🧩 Next Steps
+## � Project Board Automation
+
+DemoForge includes comprehensive project board automation to keep GitHub Issues synchronized with project boards in real-time.
+
+### 🎯 Features
+- **Real-time Sync**: Issues automatically move to "Done" when closed, return to "Todo" when reopened
+- **Multi-Project Support**: Separate handling for MVP and V1 project boards
+- **Sprint Planning**: Epic 1 user stories organized with Sprint Order field (1️⃣-🔟) for optimal implementation sequence
+- **E#-US# Naming**: Standardized user story naming convention across all epics
+- **Backup Sync**: Weekly automated cleanup to catch any missed updates
+
+### 🚀 Quick Setup
+The automation is ready to deploy but requires manual token setup for security:
+
+```bash
+# Test manual sync (already working)
+./scripts/sync-project-status.sh all
+
+# Full setup instructions
+```
+
+**Complete Setup Guide**: [PROJECT_AUTOMATION_SETUP.md](PROJECT_AUTOMATION_SETUP.md)
+
+## �🧩 Next Steps
 
 1. ✅ ~~Define folder structure for epics~~ → **Complete** (`docs/epics/mvp/` and `docs/epics/v1/` created)
 2. ✅ ~~Create Epic 0 & Epic 1 documentation~~ → **Complete** ([Epic 0](docs/epics/mvp/epic-0-admin-dashboard.md) + [Epic 1](docs/epics/mvp/epic-1-tenant-connection.md))
