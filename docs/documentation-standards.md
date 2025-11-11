@@ -1,5 +1,46 @@
 # DemoForge Documentation Standards
 
+## User Story Naming Convention
+
+To maintain clear epic ownership and migration history, use the following standardized naming format for all user stories:
+
+### Naming Format
+- **E#-US#** - Core stories within an epic
+- **E#-E#-US#** - Stories migrated from one epic to another
+
+### Examples
+```markdown
+E1-US1 Tenant Admin Authentication      # Core Epic 1 story
+E1-US2 Admin Consent                    # Sequential numbering within epic
+E1-E0-US3 Connect Tenant CTA           # Migrated from Epic 0 to Epic 1
+E2-E1-US7 Advanced Token Refresh       # Migrated from Epic 1 to Epic 2
+```
+
+### Implementation Rules
+
+#### Core Epic Stories (E#-US#):
+- Use sequential numbering within each epic: E1-US1, E1-US2, E1-US3...
+- Epic prefix shows clear ownership: E0 (Epic 0), E1 (Epic 1), E2 (Epic 2)
+- Reset numbering for each epic to maintain clarity
+
+#### Migrated Stories (E#-E#-US#):
+- Preserve original epic and story number: E0-US3 becomes E1-E0-US3
+- Shows migration history: "Epic 1 story that came from Epic 0, originally US3"
+- Maintains traceability across epic boundaries
+- Never renumber migrated stories - keep original sequence
+
+#### GitHub Integration:
+- Update GitHub issue titles to match naming convention
+- Use consistent naming in all documentation references
+- Epic labels should match naming: `epic-0`, `epic-1`, etc.
+
+### Migration Process
+1. **Identify** story to migrate: `E0-US3 Connect Tenant CTA`
+2. **Rename** in destination epic: `E1-E0-US3 Connect Tenant CTA`
+3. **Update** epic labels: remove `epic-0`, add `epic-1`
+4. **Document** migration in both epic documentation
+5. **Commit** changes with clear migration message
+
 ## User Story Status Labels
 
 To maintain consistency across all epics and ensure clear project tracking, use the following standardized status labels:
@@ -50,11 +91,11 @@ To maintain consistency across all epics and ensure clear project tracking, use 
 
 ```markdown
 ### Stories
-- [x] [#19] E0-US0 Initial Setup **🟢 Closed**
 - [x] [#11] E0-US1 App Shell & Navigation **🟢 Closed** *(RBAC → Epic 1)*
-- [ ] [#12] E0-US2 Admin Sign-In **🔄 Deferred** *(Epic 1 integration)*
-- [ ] [#15] E0-US5 Audit Preview **📋 Backlog** *(Sprint 2)*
-- [ ] [#20] E0-US9 Advanced Analytics **❌ Cancelled** *(moved to V1 scope)*
+- [x] [#12] E0-US2 Admin Sign-In **� Closed** *(merged with #2)*
+- [ ] [#2] E1-US1 Tenant Admin Authentication **📋 Backlog**
+- [ ] [#13] E1-E0-US3 Connect Tenant CTA **📋 Backlog** *(migrated from Epic 0)*
+- [ ] [#15] E0-US5 Audit Preview **📋 Backlog** *(depends on E1-US8)*
 ```
 
 ### Cross-Epic References
@@ -67,13 +108,14 @@ When deferring stories between epics:
 
 ### Commit Message Standards
 
-When updating story status:
+When updating story status and naming:
 ```bash
-git commit -m "docs: Mark E0-US1 as 🟢 Closed with Epic 1 deferrals
+git commit -m "docs: implement E#-US# naming convention for user stories
 
-- Update E0-US1 status to closed
-- Defer RBAC components to E1-US9-US11
-- Update iteration plans accordingly"
+- Rename Epic 1 stories to E1-US# format (E1-US1 through E1-US8)  
+- Migrated stories use E1-E0-US# format showing Epic 0 origin
+- Update all documentation references to new naming
+- Maintain GitHub issue title consistency"
 ```
 
 This ensures clear project tracking and makes progress visible to all stakeholders.
