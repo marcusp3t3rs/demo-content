@@ -223,6 +223,7 @@ The automation is ready to deploy but requires manual token setup for security:
 - 📁 [V1 Epics](docs/epics/v1/) - Future V1 epics (planned jointly)
 
 _This repository follows a structured approach: MVP foundation first, then collaborative V1 planning._
+
 ---
 
 ### Feasibility POC (short-term)
@@ -240,4 +241,5 @@ POC outcomes will determine whether unattended background refresh (the "heartbea
 - V1: Production-grade unattended provisioning, consent workflows, token storage, application access policies, and auditing — scheduled after POC and backlog prioritization.
 - V2: TBD (advanced RBAC, scale, multi-tenant automation, expanded content generation)
 
+---
 ---
