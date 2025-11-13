@@ -25,8 +25,7 @@ POC Steps
 2. Acquire token (client_credentials) and run a script:
    - Obtain token:
      POST https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
-     grant_type=client_credentials&client_id=...&client_secret=...&scope=https://graph.microsoft.com/.default
-     grant_type=client_credentials&amp;client_id=...&amp;client_secret=...&amp;scope=https://graph.microsoft.com/.default
+     grant_type=client_credentials&client_id=...&client_secret=...&scope=https://graph.microsoft.com/.default     
 3. Create test user:
    - POST /users with required fields.
    - Optionally assign license to provision mailbox (PowerShell or Graph license assignment).
