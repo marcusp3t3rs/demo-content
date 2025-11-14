@@ -76,12 +76,12 @@ The POC scripts in `/dashboard/scripts/poc/` contain validated functionality tha
 dashboard/
 ├── lib/
 │   ├── auth/
-│   │   ├── token-manager.ts          # ← from 01-authenticate.ts
-│   │   ├── config-validator.ts       # ← from 00-verify-config.ts
+│   │   ├── token-manager.ts          # ← from 01-authenticate.js
+│   │   ├── config-validator.ts       # ← from 00-verify-config.js
 │   │   └── consent-flow.ts           # ← new, references POC patterns
 │   ├── tenant/
-│   │   ├── license-checker.ts        # ← from 02a-check-license.ts
-│   │   ├── user-provisioner.ts       # ← from 02b-create-licensed-user.ts
+│   │   ├── license-checker.ts        # ← from 02a-check-license.js
+│   │   ├── user-provisioner.ts       # ← from 02b-create-licensed-user.js
 │   │   └── validation.ts             # ← tenant verification logic
 │   ├── content-lifecycle/
 │   │   ├── manager.ts                # ← from content-lifecycle-manager.ts

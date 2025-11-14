@@ -5,70 +5,70 @@
  * This addresses the critical Epic 1 requirement for clean tenant disconnection.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+const fs = require('fs');
+const path = require('path');
 
-interface ContentRecord {
-  id: string;
-  tenantId: string;
-  demoSessionId: string;
-  resourceType: 'user' | 'file' | 'email' | 'chat' | 'team' | 'license';
-  resourceId: string;
-  parentResourceId?: string;
-  graphApiEndpoint: string;
-  displayName: string;
-  createdAt: string;
-  metadata: any;
-}
+/**
+ * Content record for tracking created resources
+ * @typedef {Object} ContentRecord
+ * @property {string} id
+ * @property {string} tenantId
+ * @property {string} demoSessionId
+ * @property {'user'|'file'|'email'|'chat'|'team'|'license'} resourceType
+ * @property {string} resourceId
+ * @property {string} [parentResourceId]
+ * @property {string} graphApiEndpoint
+ * @property {string} displayName
+ * @property {string} createdAt
+ * @property {any} metadata
+ */
 
-interface DemoSession {
-  sessionId: string;
-  tenantId: string;
-  startedAt: string;
-  status: 'active' | 'completed' | 'cleaning' | 'cleaned';
-  totalResources: number;
-  cleanedResources: number;
-  resources: ContentRecord[];
-}
+/**
+ * Demo session for tracking POC demonstrations
+ * @typedef {Object} DemoSession
+ * @property {string} sessionId
+ * @property {string} tenantId
+ * @property {string} startedAt
+ * @property {'active'|'completed'|'cleaning'|'cleaned'} status
+ * @property {number} totalResources
+ * @property {number} cleanedResources
+ * @property {ContentRecord[]} resources
+ */
 
 class ContentLifecycleManager {
-  private trackingFile: string;
-  private sessions: Map<string, DemoSession>;
-
-  constructor(trackingFilePath?: string) {
-    this.trackingFile = trackingFilePath || path.join(process.cwd(), 'demo-content-tracking.json');
+  constructor(trackingFilePath) {
+    this.trackingFile = trackingFilePath || path.join(__dirname, 'poc-content-tracking.json');
     this.sessions = new Map();
     this.loadTracking();
   }
 
-  private loadTracking(): void {
+  loadTracking() {
     try {
       if (fs.existsSync(this.trackingFile)) {
         const data = fs.readFileSync(this.trackingFile, 'utf8');
-        const sessions = JSON.parse(data);
-        
-        Object.entries(sessions).forEach(([sessionId, session]) => {
-          this.sessions.set(sessionId, session as DemoSession);
-        });
+        const parsed = JSON.parse(data);
+        this.sessions = new Map();
+        for (const [sessionId, session] of Object.entries(parsed)) {
+          this.sessions.set(sessionId, session);
+        }
       }
-    } catch (error: any) {
-      console.warn(`Could not load tracking file: ${error.message}`);
+    } catch (error) {
+      console.error('Error loading tracking data:', error.message);
     }
   }
 
-  private saveTracking(): void {
+  saveTracking() {
     try {
-      const sessionsObj = Object.fromEntries(this.sessions);
-      fs.writeFileSync(this.trackingFile, JSON.stringify(sessionsObj, null, 2));
-    } catch (error: any) {
-      console.error(`Could not save tracking file: ${error.message}`);
+      fs.writeFileSync(this.trackingFile, JSON.stringify(Object.fromEntries(this.sessions), null, 2));
+    } catch (error) {
+      console.error('Error saving tracking data:', error.message);
     }
   }
 
-  startDemoSession(tenantId: string): string {
-    const sessionId = `demo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  startDemoSession(tenantId) {
+    const sessionId = `demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
-    const session: DemoSession = {
+    const session = {
       sessionId,
       tenantId,
       startedAt: new Date().toISOString(),
@@ -80,27 +80,27 @@ class ContentLifecycleManager {
 
     this.sessions.set(sessionId, session);
     this.saveTracking();
-    
-    console.log(`📋 Started demo session: ${sessionId}`);
+
+    console.log(`🚀 Started demo session: ${sessionId} for tenant: ${tenantId}`);
     return sessionId;
   }
 
   trackResource(
-    sessionId: string,
-    resourceType: ContentRecord['resourceType'],
-    resourceId: string,
-    displayName: string,
-    graphApiEndpoint: string,
-    parentResourceId?: string,
-    metadata?: any
-  ): void {
+    sessionId,
+    resourceType,
+    resourceId,
+    displayName,
+    graphApiEndpoint,
+    parentResourceId,
+    metadata
+  ) {
     const session = this.sessions.get(sessionId);
     if (!session) {
-      throw new Error(`Demo session not found: ${sessionId}`);
+      throw new Error(`Session ${sessionId} not found`);
     }
 
-    const record: ContentRecord = {
-      id: `${resourceType}_${resourceId}_${Date.now()}`,
+    const record = {
+      id: `${resourceType}-${resourceId}-${Date.now()}`,
       tenantId: session.tenantId,
       demoSessionId: sessionId,
       resourceType,
@@ -113,146 +113,133 @@ class ContentLifecycleManager {
     };
 
     session.resources.push(record);
-    session.totalResources++;
+    session.totalResources = session.resources.length;
     this.saveTracking();
 
     console.log(`📝 Tracked ${resourceType}: ${displayName} (${resourceId})`);
   }
 
-  getSessionResources(sessionId: string): ContentRecord[] {
+  getSessionResources(sessionId) {
     const session = this.sessions.get(sessionId);
     return session ? session.resources : [];
   }
 
-  getAllActiveSessions(): DemoSession[] {
+  getAllActiveSessions() {
     return Array.from(this.sessions.values()).filter(s => s.status === 'active');
   }
 
-  getSessionsByTenant(tenantId: string): DemoSession[] {
+  getSessionsByTenant(tenantId) {
     return Array.from(this.sessions.values()).filter(s => s.tenantId === tenantId);
   }
 
-  generateCleanupPlan(sessionId: string): {
-    order: string[];
-    resources: Map<string, ContentRecord[]>;
-    warnings: string[];
-  } {
+  generateCleanupPlan(sessionId) {
     const session = this.sessions.get(sessionId);
     if (!session) {
-      throw new Error(`Demo session not found: ${sessionId}`);
+      throw new Error(`Session ${sessionId} not found`);
     }
 
-    const resources = new Map<string, ContentRecord[]>();
-    const warnings: string[] = [];
+    const resources = new Map();
+    const warnings = [];
+
+    // Define cleanup order (most dependent first)
+    const cleanupOrder = ['file', 'email', 'chat', 'license', 'user', 'team'];
+    
+    // Initialize resource groups
+    cleanupOrder.forEach(type => {
+      resources.set(type, []);
+    });
 
     // Group resources by type
     session.resources.forEach(resource => {
       if (!resources.has(resource.resourceType)) {
         resources.set(resource.resourceType, []);
+        warnings.push(`Unknown resource type: ${resource.resourceType}`);
       }
-      resources.get(resource.resourceType)!.push(resource);
+      resources.get(resource.resourceType).push(resource);
     });
 
-    // Define cleanup order (content first, users last)
-    const cleanupOrder = ['chat', 'email', 'file', 'team', 'license', 'user'];
+    // Check for potential issues
+    const userResources = resources.get('user') || [];
+    const licenseResources = resources.get('license') || [];
     
-    // Filter to only include types that exist
-    const actualOrder = cleanupOrder.filter(type => resources.has(type));
-
-    // Generate warnings
-    if (resources.has('user')) {
-      warnings.push('User deletion will cascade to remaining content');
-    }
-    
-    if (resources.has('license')) {
-      warnings.push('License reclamation will disable user services');
-    }
-
-    const totalItems = session.resources.length;
-    if (totalItems > 10) {
-      warnings.push(`Large cleanup operation: ${totalItems} items to delete`);
+    if (userResources.length > 0 && licenseResources.length === 0) {
+      warnings.push('Users found without tracked licenses - may leave orphaned assignments');
     }
 
     return {
-      order: actualOrder,
+      order: cleanupOrder,
       resources,
       warnings
     };
   }
 
-  previewCleanup(sessionId: string): void {
-    console.log(`🔍 Cleanup Preview for Session: ${sessionId}`);
-    console.log('='.repeat(50));
-
+  previewCleanup(sessionId) {
     const plan = this.generateCleanupPlan(sessionId);
     
-    console.log('📋 Cleanup Order:');
-    plan.order.forEach((type, index) => {
-      const items = plan.resources.get(type) || [];
-      console.log(`   ${index + 1}. ${type.toUpperCase()}: ${items.length} items`);
-      
-      items.forEach(item => {
-        console.log(`      • ${item.displayName} (${item.resourceId})`);
-      });
+    console.log(`\n🧹 Cleanup Preview for Session: ${sessionId}`);
+    console.log('='.repeat(50));
+    
+    plan.order.forEach(resourceType => {
+      const items = plan.resources.get(resourceType) || [];
+      if (items.length > 0) {
+        console.log(`\n${resourceType.toUpperCase()} (${items.length} items):`);
+        items.forEach(item => {
+          console.log(`  • ${item.displayName} (${item.resourceId})`);
+        });
+      }
     });
 
     if (plan.warnings.length > 0) {
       console.log('\n⚠️  Warnings:');
-      plan.warnings.forEach(warning => {
-        console.log(`   • ${warning}`);
-      });
+      plan.warnings.forEach(warning => console.log(`  • ${warning}`));
     }
-
-    console.log(`\n📊 Total Items: ${Array.from(plan.resources.values()).flat().length}`);
   }
 
-  async executeCleanup(sessionId: string, accessToken: string, dryRun: boolean = true): Promise<void> {
+  async executeCleanup(sessionId, accessToken, dryRun = true) {
     const session = this.sessions.get(sessionId);
     if (!session) {
-      throw new Error(`Demo session not found: ${sessionId}`);
+      throw new Error(`Session ${sessionId} not found`);
     }
 
-    console.log(`🧹 ${dryRun ? 'DRY RUN' : 'EXECUTING'} Cleanup for Session: ${sessionId}`);
-    console.log('='.repeat(50));
-
+    const plan = this.generateCleanupPlan(sessionId);
     session.status = 'cleaning';
     this.saveTracking();
 
-    const plan = this.generateCleanupPlan(sessionId);
+    console.log(`\n${dryRun ? '🧪 DRY RUN' : '🧹 EXECUTING'} Cleanup for Session: ${sessionId}`);
+    console.log('='.repeat(60));
+
+    let cleanedCount = 0;
 
     for (const resourceType of plan.order) {
       const items = plan.resources.get(resourceType) || [];
       
-      console.log(`\n🗑️  Cleaning ${resourceType.toUpperCase()}: ${items.length} items`);
-      
       for (const item of items) {
         try {
           if (dryRun) {
-            console.log(`   [DRY RUN] Would delete: ${item.displayName}`);
-            console.log(`   [DRY RUN] Endpoint: DELETE ${item.graphApiEndpoint}`);
+            console.log(`[DRY RUN] Would delete ${resourceType}: ${item.displayName}`);
           } else {
-            // TODO: Implement actual Graph API deletion calls
-            console.log(`   🗑️  Deleting: ${item.displayName}`);
-            // await this.deleteResource(accessToken, item);
-            session.cleanedResources++;
+            // Here you would make the actual Graph API DELETE request
+            console.log(`[LIVE] Deleting ${resourceType}: ${item.displayName}`);
+            // await fetch(item.graphApiEndpoint, {
+            //   method: 'DELETE',
+            //   headers: { 'Authorization': `Bearer ${accessToken}` }
+            // });
           }
-        } catch (error: any) {
-          console.log(`   ❌ Failed to delete ${item.displayName}: ${error.message}`);
+          cleanedCount++;
+        } catch (error) {
+          console.error(`❌ Failed to clean ${resourceType} ${item.resourceId}:`, error.message);
         }
       }
     }
 
-    if (!dryRun) {
-      session.status = 'cleaned';
-      console.log('\n✅ Cleanup completed successfully!');
-    } else {
-      console.log('\n📋 Dry run completed. Use executeCleanup(sessionId, token, false) to actually delete.');
-    }
-
+    session.cleanedResources = cleanedCount;
+    session.status = dryRun ? 'active' : 'cleaned';
     this.saveTracking();
+
+    console.log(`\n✅ Cleanup ${dryRun ? 'preview' : 'execution'} completed: ${cleanedCount} resources processed`);
   }
 
-  completeDemoSession(sessionId: string): void {
+  completeDemoSession(sessionId) {
     const session = this.sessions.get(sessionId);
     if (session) {
       session.status = 'completed';
@@ -262,16 +249,16 @@ class ContentLifecycleManager {
   }
 
   // Integration helpers for POC scripts
-  static createForPOC(): ContentLifecycleManager {
+  static createForPOC() {
     return new ContentLifecycleManager(path.join(__dirname, 'poc-content-tracking.json'));
   }
 
-  exportSummary(): any {
+  exportSummary() {
     const summary = {
       totalSessions: this.sessions.size,
       activeSessions: Array.from(this.sessions.values()).filter(s => s.status === 'active').length,
       totalResources: Array.from(this.sessions.values()).reduce((sum, s) => sum + s.totalResources, 0),
-      resourcesByType: {} as any,
+      resourcesByType: {},
       tenants: new Set()
     };
 
@@ -294,7 +281,7 @@ class ContentLifecycleManager {
 }
 
 // Example usage for POC integration
-async function demonstrateContentTracking(): Promise<void> {
+async function demonstrateContentTracking() {
   console.log('🧪 POC Content Lifecycle Management Demo');
   console.log('='.repeat(50));
 
@@ -340,5 +327,4 @@ if (require.main === module) {
   demonstrateContentTracking().catch(console.error);
 }
 
-export { ContentLifecycleManager };
-export type { ContentRecord, DemoSession };
+module.exports = { ContentLifecycleManager };
