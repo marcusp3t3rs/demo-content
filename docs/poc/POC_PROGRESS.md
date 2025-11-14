@@ -7,6 +7,8 @@
 ## 🎯 POC Objective
 Validate whether unattended provisioning and periodic "heartbeat" activity can be implemented safely and practically for demo users, mail, files, and chats using Microsoft Graph API with application permissions.
 
+**Implementation Details**: See [provisioning-poc-plan.md](./provisioning-poc-plan.md) for step-by-step technical approach, API endpoints, and sample commands.
+
 ## 📋 POC Tasks Progress (GitHub Issues)
 
 ### Phase 1: Azure App Registration & Permissions
@@ -56,4 +58,9 @@ Validate whether unattended provisioning and periodic "heartbeat" activity can b
 **If POC identifies blockers**: Keep MVP focused on dashboard + login + mocked provisioning, schedule unattended provisioning for V1 with documented constraints.
 
 ---
-**Related**: [provisioning-poc-plan.md](./provisioning-poc-plan.md)
+
+## 📋 Document Relationship
+- **[POC_PROGRESS.md](./POC_PROGRESS.md)** (this file): GitHub issue tracking, phase management, and progress logging
+- **[provisioning-poc-plan.md](./provisioning-poc-plan.md)**: Detailed technical implementation steps, API endpoints, and code samples
+
+Both documents work together - this file provides project management structure while the plan provides technical execution details. - *Detailed step-by-step POC implementation guide*
