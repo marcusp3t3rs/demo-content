@@ -7,47 +7,40 @@
 ## 🎯 POC Objective
 Validate whether unattended provisioning and periodic "heartbeat" activity can be implemented safely and practically for demo users, mail, files, and chats using Microsoft Graph API with application permissions.
 
-## 📋 POC Tasks Progress
+## 📋 POC Tasks Progress (GitHub Issues)
 
 ### Phase 1: Azure App Registration & Permissions
-- [ ] Register test Azure app with application permissions:
-  - [ ] `User.ReadWrite.All` (create/manage demo users)
-  - [ ] `Mail.ReadWrite` (create mail items)  
-  - [ ] `Files.ReadWrite.All` (upload to OneDrive)
-  - [ ] Teams-related permissions (TBD based on requirements)
-- [ ] Configure admin consent for application permissions
-- [ ] Test authentication with client_credentials flow
+**Issue**: [#35](https://github.com/marcusp3t3rs/demoforge/issues/35) - POC-P1: Azure App Registration & Permissions  
+**Status**: 🟡 Ready to Start  
+**Timebox**: Day 1 of 3-day POC
 
-### Phase 2: Core Provisioning Script
-- [ ] Implement minimal client_credentials authentication
-- [ ] Create test user with Graph API
-- [ ] Assign license to provision mailbox (if supported)
-- [ ] Upload file to user's OneDrive
-- [ ] Create mail item in user's mailbox
-- [ ] Attempt Teams chat message creation
+### Phase 2: Core Provisioning Script Implementation  
+**Issue**: [#36](https://github.com/marcusp3t3rs/demoforge/issues/36) - POC-P2: Core Provisioning Script Implementation  
+**Status**: ⏳ Blocked (depends on Phase 1)  
+**Timebox**: Day 2 of 3-day POC
 
-### Phase 3: Validation & Documentation  
-- [ ] Verify authorship/attribution (From/CreatedBy) for created items
-- [ ] Test Application Access Policies constraints
-- [ ] Document security controls and limitations
-- [ ] Performance and rate limiting assessment
+### Phase 3: Validation & Security Assessment
+**Issue**: [#37](https://github.com/marcusp3t3rs/demoforge/issues/37) - POC-P3: Validation & Security Assessment  
+**Status**: ⏳ Blocked (depends on Phase 2)  
+**Timebox**: Day 2-3 of 3-day POC
 
-### Phase 4: POC Report & Recommendations
-- [ ] Document app-only vs delegated vs hybrid approaches
-- [ ] Required Graph scopes and admin consent UX
-- [ ] Security controls and tenant constraints
-- [ ] Sample scripts and API request examples
-- [ ] Implementation recommendations for MVP vs V1
+### Phase 4: POC Report & Implementation Recommendations
+**Issue**: [#38](https://github.com/marcusp3t3rs/demoforge/issues/38) - POC-P4: POC Report & Implementation Recommendations  
+**Status**: ⏳ Blocked (depends on Phase 3)  
+**Timebox**: Day 3 of 3-day POC
 
 ## 🔬 Experiment Log
 
-### Day 1: [Date]
+### Day 1: November 14, 2025
+**Focus**: [Issue #35](https://github.com/marcusp3t3rs/demoforge/issues/35) - Azure App Registration & Permissions  
 *Experiments and findings will be documented here as we progress*
 
 ### Day 2: [Date]  
+**Focus**: [Issue #36](https://github.com/marcusp3t3rs/demoforge/issues/36) - Core Provisioning Script + [Issue #37](https://github.com/marcusp3t3rs/demoforge/issues/37) - Validation  
 *Continue logging progress*
 
 ### Day 3: [Date]
+**Focus**: [Issue #38](https://github.com/marcusp3t3rs/demoforge/issues/38) - Final Report & Recommendations  
 *Final validation and report*
 
 ## 🎯 Success Criteria
