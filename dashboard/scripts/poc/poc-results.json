@@ -1,0 +1,16 @@
+{
+  "phases": [
+    {
+      "timestamp": "2025-11-14T12:59:29.269Z",
+      "phase": "Phase 1: Authentication",
+      "issue": "https://github.com/marcusp3t3rs/demoforge/issues/35",
+      "tests": [
+        {
+          "name": "Setup",
+          "status": "failed",
+          "error": "Missing required environment variables: AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET"
+        }
+      ]
+    }
+  ]
+}
